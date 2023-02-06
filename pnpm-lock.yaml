@@ -7,6 +7,7 @@ importers:
       commitlint: ^17.4.2
       commitlint-config-gitmoji: ^2.2.10
       cz-customizable: ^7.0.0
+      cz-customizable-ghooks: ^2.0.0
       eslint: ^8.33.0
       eslint-config-custom: workspace:*
       husky: ^8.0.3
@@ -17,6 +18,7 @@ importers:
       commitlint: 17.4.2
       commitlint-config-gitmoji: 2.2.10
       cz-customizable: 7.0.0
+      cz-customizable-ghooks: 2.0.0
       eslint: 8.33.0
       eslint-config-custom: link:packages/eslint-config-custom
       husky: 8.0.3
@@ -2398,6 +2400,14 @@ packages:
       supports-color: 7.2.0
     dev: true
 
+  /chalk/4.1.0:
+    resolution: {integrity: sha512-qwx12AxXe2Q5xQ43Ac//I6v5aXTipYrSESdOgzrN+9XjgEpyjpKuvSGaN4qE93f7TQTlerQQ8S+EQ0EyDoVL1A==}
+    engines: {node: '>=10'}
+    dependencies:
+      ansi-styles: 4.3.0
+      supports-color: 7.2.0
+    dev: true
+
   /chalk/4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
@@ -2734,6 +2744,16 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+    dev: true
+
+  /cz-customizable-ghooks/2.0.0:
+    resolution: {integrity: sha512-J+D71gIAOGRca8pxl8iSq9o2DTSC9dvMsQ6jrIkIB3UD/Sma8qUOzZxCcOjHBG7FWt/5acrj2gUysli0QSXwMQ==}
+    engines: {node: '>=10.x', npm: '>=6'}
+    hasBin: true
+    dependencies:
+      bs-logger: 0.2.6
+      chalk: 4.1.0
+      p-pipe: 3.1.0
     dev: true
 
   /cz-customizable/7.0.0:
@@ -5661,6 +5681,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       aggregate-error: 3.1.0
+    dev: true
+
+  /p-pipe/3.1.0:
+    resolution: {integrity: sha512-08pj8ATpzMR0Y80x50yJHn37NF6vjrqHutASaX5LiH5npS9XPvrUmscd9MF5R4fuYRHOxQR1FfMIlF7AzwoPqw==}
+    engines: {node: '>=8'}
     dev: true
 
   /p-try/2.2.0:

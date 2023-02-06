@@ -34,7 +34,7 @@ module.exports = {
       name: "💚 ci:\tAdd or update regards to build process",
     },
   ],
-  scopes: [],
+  scopes: ["api", "monorepo", "frontend"],
 
   scopeOverrides: {
     fix: [
