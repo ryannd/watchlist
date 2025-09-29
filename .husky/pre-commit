@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd backend
+
+mvn spotless:apply
+mvn checkstyle:check
+
+git add .
