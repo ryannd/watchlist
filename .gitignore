@@ -1,0 +1,35 @@
+# -------------------------
+# Node / pnpm
+# -------------------------
+node_modules/
+.pnpm-store/
+.pnpm-debug.log
+.next/                 # Next.js build output
+dist/                  # any frontend build artifacts
+.env                   # local environment variables
+
+# -------------------------
+# Java / Spring Boot
+# -------------------------
+/backend/build/
+!/backend/src/**        # keep source code
+*.class
+*.jar
+*.war
+*.iml
+*.log
+
+# -------------------------
+# OS / IDE
+# -------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# -------------------------
+# Husky / git hooks
+# -------------------------
+.husky/_/

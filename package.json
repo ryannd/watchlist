@@ -1,0 +1,25 @@
+{
+  "name": "watchlist",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "",
+    "dev:backend": "",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "commit": "cz",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "@commitlint/cli": "^18.0.0",
+    "@commitlint/config-conventional": "^18.0.0",
+    "commitizen": "^4.3.0",
+    "cz-emoji": "^1.0.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-emoji"
+    }
+  }
+}
