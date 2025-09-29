@@ -1,5 +1,13 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
 
-# Run Commitizen
-exec < /dev/tty && pnpm dlx cz --hook || true
+# Husky v10+ prepare-commit-msg hook
+# Automatically run Commitizen if commit was called directly
+
+# Get the commit message file path
+COMMIT_SOURCE="$2"
+
+# Only auto-launch Commitizen for normal commits, not merges, squash, or CI
+if [ -z "$COMMIT_SOURCE" ]; then
+  # Open Commitizen interactive prompt
+  exec pnpm commit
+fi
