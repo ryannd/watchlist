@@ -1,4 +1,4 @@
-package com.ryannd.watchlist.provider;
+package com.ryannd.watchlist.media.provider;
 
 import com.ryannd.watchlist.media.MediaItem;
 import java.util.List;

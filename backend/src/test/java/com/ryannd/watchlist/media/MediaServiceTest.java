@@ -3,7 +3,7 @@ package com.ryannd.watchlist.media;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.ryannd.watchlist.provider.MediaProvider;
+import com.ryannd.watchlist.media.provider.MediaProvider;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

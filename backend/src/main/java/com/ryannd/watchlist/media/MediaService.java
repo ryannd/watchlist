@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.media;
 
-import com.ryannd.watchlist.provider.MediaProvider;
+import com.ryannd.watchlist.media.provider.MediaProvider;
 import java.util.List;
 
 public class MediaService {
