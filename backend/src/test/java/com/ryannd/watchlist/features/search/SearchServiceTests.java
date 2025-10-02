@@ -13,7 +13,11 @@ public class SearchServiceTests {
   private final SourceProvider mockProvider =
       new SourceProvider() {
         @Override
-        public List<SearchResult> searchByQuery(String query) {
+        public List<SearchResult> searchByQuery(String query, String page) {
+          if (page.equals("2")) {
+            return List.of(
+                new SearchResult(456, "Page2", "overview", "backdrop", "poster", "movie", "2000"));
+          }
           return List.of(
               new SearchResult(
                   123, "Inception", "overview", "backdrop", "poster", "movie", "2000"));
@@ -24,10 +28,21 @@ public class SearchServiceTests {
   void searchByQuery_shouldReturnResults() {
     SearchService service = new SearchService(mockProvider);
 
-    List<SearchResult> results = service.search("Inception");
+    List<SearchResult> results = service.search("Inception", "1");
 
     assertNotNull(results);
     assertFalse(results.isEmpty());
     assertTrue(results.stream().anyMatch(r -> r.getTitle().equals("Inception")));
+  }
+
+  @Test
+  void searchByQuery_shouldReturnPage() {
+    SearchService service = new SearchService(mockProvider);
+
+    List<SearchResult> results = service.search("Inception", "2");
+
+    assertNotNull(results);
+    assertFalse(results.isEmpty());
+    assertTrue(results.stream().anyMatch(r -> r.getTitle().equals("Page2")));
   }
 }

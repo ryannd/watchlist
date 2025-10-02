@@ -33,3 +33,5 @@ Thumbs.db
 # Husky / git hooks
 # -------------------------
 .husky/_/
+
+backend/src/main/resources/application.properties

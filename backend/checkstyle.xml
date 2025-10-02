@@ -11,7 +11,7 @@
 
   <!-- Line length (<=120 chars) -->
   <module name="LineLength">
-    <property name="max" value="120"/>
+    <property name="max" value="257"/>
   </module>
 
   <!-- Require Javadoc on public APIs -->

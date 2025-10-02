@@ -26,7 +26,7 @@ public class SearchControllerTest {
     List<SearchResult> results =
         List.of(
             new SearchResult(123, "Inception", "overview", "backdrop", "poster", "movie", "2000"));
-    when(searchService.search("Inception")).thenReturn(results);
+    when(searchService.search("Inception", "1")).thenReturn(results);
 
     mockMvc
         .perform(get("/api/search/").param("query", "Inception"))
@@ -34,5 +34,24 @@ public class SearchControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$[0].id").value(123))
         .andExpect(jsonPath("$[0].title").value("Inception"));
+  }
+
+  @Test
+  void getSearch_returnsCorrectPage() throws Exception {
+    List<SearchResult> resultsPageOne =
+        List.of(
+            new SearchResult(123, "Inception", "overview", "backdrop", "poster", "movie", "2000"));
+    List<SearchResult> resultsPageTwo =
+        List.of(new SearchResult(456, "Page2", "overview", "backdrop", "poster", "movie", "2000"));
+
+    when(searchService.search("Inception", "1")).thenReturn(resultsPageOne);
+    when(searchService.search("Inception", "2")).thenReturn(resultsPageTwo);
+
+    mockMvc
+        .perform(get("/api/search/").param("query", "Inception").param("page", "2"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$[0].id").value(456))
+        .andExpect(jsonPath("$[0].title").value("Page2"));
   }
 }

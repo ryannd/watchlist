@@ -17,7 +17,8 @@ public class SearchController {
   }
 
   @GetMapping("/")
-  public List<SearchResult> getResults(@RequestParam String query) {
-    return this.searchService.search(query);
+  public List<SearchResult> getResults(
+      @RequestParam String query, @RequestParam(defaultValue = "1", required = false) String page) {
+    return this.searchService.search(query, page);
   }
 }

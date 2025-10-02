@@ -19,7 +19,7 @@ public class TmdbClient {
     this.webClient = tmdbWebClient;
   }
 
-  public Mono<TmdbSearchResponse> search(String query) {
+  public Mono<TmdbSearchResponse> search(String query, String page) {
     return webClient
         .method(HttpMethod.GET)
         .uri(
@@ -29,7 +29,7 @@ public class TmdbClient {
                     .host("api.themoviedb.org")
                     .path("/3/search/multi")
                     .queryParam("query", query)
-                    .queryParam("page", 1)
+                    .queryParam("page", page)
                     .build())
         .contentType(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + apiKey)

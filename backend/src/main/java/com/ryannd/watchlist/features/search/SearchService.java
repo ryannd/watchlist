@@ -13,7 +13,7 @@ public class SearchService {
     this.sourceProvider = sourceProvider;
   }
 
-  public List<SearchResult> search(String query) {
-    return sourceProvider.searchByQuery(query);
+  public List<SearchResult> search(String query, String page) {
+    return sourceProvider.searchByQuery(query, page);
   }
 }
