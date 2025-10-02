@@ -1,4 +1,4 @@
-package com.ryannd.watchlist.media;
+package com.ryannd.watchlist.features.media;
 
 public class MediaItem {
   private String id;

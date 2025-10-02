@@ -1,4 +1,4 @@
-package com.ryannd.watchlist.media.model;
+package com.ryannd.watchlist.providers.tmdb.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

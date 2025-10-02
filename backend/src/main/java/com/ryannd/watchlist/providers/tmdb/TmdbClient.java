@@ -1,6 +1,6 @@
-package com.ryannd.watchlist.media.client;
+package com.ryannd.watchlist.providers.tmdb;
 
-import com.ryannd.watchlist.media.model.TmdbSearchResponse;
+import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
