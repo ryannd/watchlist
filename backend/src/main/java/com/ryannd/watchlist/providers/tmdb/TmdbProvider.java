@@ -23,6 +23,13 @@ public class TmdbProvider implements SourceProvider {
   }
 
   private SearchResult mapToSearchResult(TmdbSearchResult result) {
-    return new SearchResult();
+    return new SearchResult(
+        result.getId(),
+        result.getTitle(),
+        result.getOverview(),
+        result.getBackdropPath(),
+        result.getPosterPath(),
+        result.getMediaType(),
+        result.getReleaseDate());
   }
 }

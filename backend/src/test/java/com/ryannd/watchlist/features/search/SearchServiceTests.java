@@ -2,6 +2,7 @@ package com.ryannd.watchlist.features.search;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.ryannd.watchlist.features.search.model.SearchResult;
 import com.ryannd.watchlist.providers.SourceProvider;
@@ -13,7 +14,9 @@ public class SearchServiceTests {
       new SourceProvider() {
         @Override
         public List<SearchResult> searchByQuery(String query) {
-          return List.of(new SearchResult());
+          return List.of(
+              new SearchResult(
+                  123, "Inception", "overview", "backdrop", "poster", "movie", "2000"));
         }
       };
 
@@ -25,5 +28,6 @@ public class SearchServiceTests {
 
     assertNotNull(results);
     assertFalse(results.isEmpty());
+    assertTrue(results.stream().anyMatch(r -> r.getTitle().equals("Inception")));
   }
 }
