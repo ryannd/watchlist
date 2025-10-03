@@ -1,12 +1,27 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# Abort on any failure, unset var usage, or failed pipe segment
+set -euo pipefail
+
+# Run frontend checks
 cd frontend
-
-pnpm check && pnpm test --passWithNoTests
-
+if ! pnpm check; then
+  echo "\n[pre-commit] pnpm check failed. Aborting commit." >&2
+  exit 1
+fi
+if ! pnpm test --passWithNoTests; then
+  echo "\n[pre-commit] pnpm test failed. Aborting commit." >&2
+  exit 1
+fi
 cd ..
 
+# Run backend formatting & checks
 cd backend
+mvn spotless:apply
+if ! mvn checkstyle:check; then
+  echo "\n[pre-commit] Checkstyle failed. Aborting commit." >&2
+  exit 1
+fi
+cd ..
 
-mvn spotless:apply && mvn checkstyle:check
-
-git add .
+# Stage backend formatting changes (if any)
+git add backend

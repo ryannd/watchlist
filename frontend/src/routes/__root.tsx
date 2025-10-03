@@ -52,9 +52,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <ThemeProvider defaultTheme='dark'>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider defaultTheme="dark">{children}</ThemeProvider>
         <TanstackDevtools
           config={{
             position: 'bottom-left',
