@@ -2,9 +2,9 @@
   "name": "watchlist",
   "private": true,
   "scripts": {
-    "dev:frontend": "",
-    "dev:backend": "",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && pnpm dev",
+    "dev:backend": "cd backend && mvn spring-boot:run",
+    "dev": "concurrently \"pnpm dev:frontend\" \"pnpm dev:backend\"",
     "commit": "cz",
     "prepare": "husky"
   },
