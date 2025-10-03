@@ -1,8 +1,12 @@
 #!/bin/sh
+cd frontend
+
+pnpm check && pnpm test --passWithNoTests
+
+cd ..
 
 cd backend
 
-mvn spotless:apply
-mvn checkstyle:check
+mvn spotless:apply && mvn checkstyle:check
 
 git add .
