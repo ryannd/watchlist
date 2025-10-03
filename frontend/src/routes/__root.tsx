@@ -11,6 +11,8 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+import { ThemeProvider } from '@/components/theme-provider'
+import { getThemeServerFn } from '@/lib/theme'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -39,16 +41,20 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   }),
 
   shellComponent: RootDocument,
+  loader: () => getThemeServerFn(),
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const theme = Route.useLoaderData()
   return (
-    <html lang="en">
+    <html lang="en" className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
-        {children}
+        <ThemeProvider defaultTheme='dark'>
+          {children}
+        </ThemeProvider>
         <TanstackDevtools
           config={{
             position: 'bottom-left',
