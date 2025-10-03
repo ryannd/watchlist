@@ -1,9 +1,9 @@
 export type SearchResult = {
-    id: Number;
-    title: String;
-    overview: String;
-    backdropPath: String;
-    posterPath: String;
-    mediaType: String;
-    releaseDate: String;
+  id: number
+  title: string
+  overview: string
+  backdropPath: string
+  posterPath: string
+  mediaType: string
+  releaseDate: string
 }
