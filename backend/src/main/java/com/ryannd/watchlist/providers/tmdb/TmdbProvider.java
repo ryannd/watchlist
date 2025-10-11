@@ -18,6 +18,7 @@ public class TmdbProvider implements SourceProvider {
   @Override
   public List<SearchResult> searchByQuery(String query, String page) {
     return tmdbClient.search(query, page).block().getResults().stream()
+        .filter(r -> !"person".equalsIgnoreCase(r.getMediaType()))
         .map(this::mapToSearchResult)
         .collect(Collectors.toList());
   }

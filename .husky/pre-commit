@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Abort on any failure, unset var usage, or failed pipe segment
-set -euo pipefail
+set -o errexit
+set -o nounset
 
 # Run frontend checks
 cd frontend

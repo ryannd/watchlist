@@ -1,5 +1,6 @@
 package com.ryannd.watchlist.providers.tmdb.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -29,7 +30,11 @@ public class TmdbSearchResult {
 
   @JsonProperty("backdrop_path")
   public String getBackdropPath() {
-    return backdropPath;
+    if (backdropPath != null) {
+      return "https://image.tmdb.org/t/p/w500" + backdropPath;
+    } else {
+      return "";
+    }
   }
 
   public void setBackdropPath(String backdropPath) {
@@ -44,6 +49,8 @@ public class TmdbSearchResult {
     this.id = id;
   }
 
+  @JsonProperty("title")
+  @JsonAlias({"name", "original_title", "original_name"})
   public String getTitle() {
     return title;
   }
@@ -105,6 +112,7 @@ public class TmdbSearchResult {
   }
 
   @JsonProperty("release_date")
+  @JsonAlias({"first_air_date"})
   public String getReleaseDate() {
     return releaseDate;
   }
