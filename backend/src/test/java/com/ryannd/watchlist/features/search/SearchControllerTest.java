@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.ryannd.watchlist.features.search.model.SearchResponse;
 import com.ryannd.watchlist.features.search.model.SearchResult;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -26,14 +27,17 @@ public class SearchControllerTest {
     List<SearchResult> results =
         List.of(
             new SearchResult(123, "Inception", "overview", "backdrop", "poster", "movie", "2000"));
-    when(searchService.search("Inception", "1")).thenReturn(results);
+
+    SearchResponse response = new SearchResponse(results, 1, 1);
+
+    when(searchService.search("Inception", "1")).thenReturn(response);
 
     mockMvc
         .perform(get("/api/search/").param("query", "Inception"))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$[0].id").value(123))
-        .andExpect(jsonPath("$[0].title").value("Inception"));
+        .andExpect(jsonPath("$.results[0].id").value(123))
+        .andExpect(jsonPath("$.results[0].title").value("Inception"));
   }
 
   @Test
@@ -44,14 +48,18 @@ public class SearchControllerTest {
     List<SearchResult> resultsPageTwo =
         List.of(new SearchResult(456, "Page2", "overview", "backdrop", "poster", "movie", "2000"));
 
-    when(searchService.search("Inception", "1")).thenReturn(resultsPageOne);
-    when(searchService.search("Inception", "2")).thenReturn(resultsPageTwo);
+    SearchResponse resPageOne = new SearchResponse(resultsPageOne, 1, 2);
+    SearchResponse resPageTwo = new SearchResponse(resultsPageTwo, 2, 2);
+
+    when(searchService.search("Inception", "1")).thenReturn(resPageOne);
+    when(searchService.search("Inception", "2")).thenReturn(resPageTwo);
 
     mockMvc
         .perform(get("/api/search/").param("query", "Inception").param("page", "2"))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$[0].id").value(456))
-        .andExpect(jsonPath("$[0].title").value("Page2"));
+        .andExpect(jsonPath("$.results[0].id").value(456))
+        .andExpect(jsonPath("$.results[0].title").value("Page2"))
+        .andExpect(jsonPath("$.currentPage").value(2));
   }
 }

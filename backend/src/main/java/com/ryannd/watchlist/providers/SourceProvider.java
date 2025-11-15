@@ -1,8 +1,7 @@
 package com.ryannd.watchlist.providers;
 
-import com.ryannd.watchlist.features.search.model.SearchResult;
-import java.util.List;
+import com.ryannd.watchlist.features.search.model.SearchResponse;
 
 public interface SourceProvider {
-  List<SearchResult> searchByQuery(String query, String page);
+  SearchResponse searchByQuery(String query, String page);
 }

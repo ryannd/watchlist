@@ -7,3 +7,9 @@ export type SearchResult = {
   mediaType: string
   releaseDate: string
 }
+
+export type SearchResponse = {
+  results: Array<SearchResult>
+  currentPage: number
+  totalPages: number
+}

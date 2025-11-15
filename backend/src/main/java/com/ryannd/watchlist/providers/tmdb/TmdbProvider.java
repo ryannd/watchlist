@@ -1,7 +1,9 @@
 package com.ryannd.watchlist.providers.tmdb;
 
+import com.ryannd.watchlist.features.search.model.SearchResponse;
 import com.ryannd.watchlist.features.search.model.SearchResult;
 import com.ryannd.watchlist.providers.SourceProvider;
+import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResponse;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResult;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,11 +18,17 @@ public class TmdbProvider implements SourceProvider {
   }
 
   @Override
-  public List<SearchResult> searchByQuery(String query, String page) {
-    return tmdbClient.search(query, page).block().getResults().stream()
-        .filter(r -> !"person".equalsIgnoreCase(r.getMediaType()))
-        .map(this::mapToSearchResult)
-        .collect(Collectors.toList());
+  public SearchResponse searchByQuery(String query, String page) {
+    TmdbSearchResponse tmdbResponse = tmdbClient.search(query, page).block();
+    List<SearchResult> results =
+        tmdbResponse.getResults().stream()
+            .filter(r -> !"person".equalsIgnoreCase(r.getMediaType()))
+            .map(this::mapToSearchResult)
+            .collect(Collectors.toList());
+
+    SearchResponse response =
+        new SearchResponse(results, tmdbResponse.getPage(), tmdbResponse.getTotalPages());
+    return response;
   }
 
   private SearchResult mapToSearchResult(TmdbSearchResult result) {
