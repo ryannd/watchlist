@@ -31,6 +31,7 @@ public class ShowMetadata extends MediaMetadata {
 
   private List<Season> seasons;
   private String firstAirDate;
+  private boolean isAiring;
 
   public List<Season> getSeasons() {
     return seasons;
@@ -48,15 +49,25 @@ public class ShowMetadata extends MediaMetadata {
     this.firstAirDate = firstAirDate;
   }
 
+  public boolean isAiring() {
+    return isAiring;
+  }
+
+  public void setAiring(boolean isAiring) {
+    this.isAiring = isAiring;
+  }
+
   public ShowMetadata(
       String description,
       String backgroundImage,
       String posterImage,
       List<String> genres,
       List<Season> seasons,
-      String firstAirDate) {
+      String firstAirDate,
+      boolean isAiring) {
     super(description, backgroundImage, posterImage, genres);
     this.seasons = seasons;
     this.firstAirDate = firstAirDate;
+    this.isAiring = isAiring;
   }
 }

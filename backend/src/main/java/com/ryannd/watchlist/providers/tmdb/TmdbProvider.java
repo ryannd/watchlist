@@ -1,10 +1,15 @@
 package com.ryannd.watchlist.providers.tmdb;
 
+import com.ryannd.watchlist.features.media.metadata.ShowMetadata.Season;
+import com.ryannd.watchlist.features.media.model.MovieResponse;
+import com.ryannd.watchlist.features.media.model.ShowResponse;
 import com.ryannd.watchlist.features.search.model.SearchResponse;
 import com.ryannd.watchlist.features.search.model.SearchResult;
 import com.ryannd.watchlist.providers.SourceProvider;
+import com.ryannd.watchlist.providers.tmdb.dto.TmdbMovieResponse;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResponse;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResult;
+import com.ryannd.watchlist.providers.tmdb.dto.TmdbShowResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -40,5 +45,40 @@ public class TmdbProvider implements SourceProvider {
         result.getPosterPath(),
         result.getMediaType(),
         result.getReleaseDate());
+  }
+
+  @Override
+  public MovieResponse getMovie(String id) {
+    TmdbMovieResponse response = tmdbClient.getMovie(id).block();
+    List<String> genres =
+        response.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toList());
+    return new MovieResponse(
+        response.getTitle(),
+        response.getOverview(),
+        response.getPosterPath(),
+        response.getBackdropPath(),
+        genres,
+        response.getRuntime(),
+        response.getReleaseDate());
+  }
+
+  @Override
+  public ShowResponse getShow(String id) {
+    TmdbShowResponse response = tmdbClient.getShow(id).block();
+    List<String> genres =
+        response.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toList());
+    List<Season> seasons =
+        response.getSeasons().stream()
+            .map(season -> new Season(season.getSeasonNumber(), season.getEpisodeCount()))
+            .collect(Collectors.toList());
+    return new ShowResponse(
+        response.getName(),
+        response.getOverview(),
+        response.getPosterPath(),
+        response.getBackdropPath(),
+        genres,
+        seasons,
+        response.getFirstAirDate(),
+        response.isInProduction());
   }
 }

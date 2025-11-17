@@ -1,6 +1,8 @@
 package com.ryannd.watchlist.providers.tmdb;
 
+import com.ryannd.watchlist.providers.tmdb.dto.TmdbMovieResponse;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResponse;
+import com.ryannd.watchlist.providers.tmdb.dto.TmdbShowResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -35,5 +37,39 @@ public class TmdbClient {
         .header("Authorization", "Bearer " + apiKey)
         .retrieve()
         .bodyToMono(TmdbSearchResponse.class);
+  }
+
+  public Mono<TmdbMovieResponse> getMovie(String id) {
+    return webClient
+        .method(HttpMethod.GET)
+        .uri(
+            uriBuilder ->
+                uriBuilder
+                    .scheme("https")
+                    .host("api.themoviedb.org")
+                    .path("/3/movie")
+                    .queryParam("movie_id", id)
+                    .build())
+        .contentType(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + apiKey)
+        .retrieve()
+        .bodyToMono(TmdbMovieResponse.class);
+  }
+
+  public Mono<TmdbShowResponse> getShow(String id) {
+    return webClient
+        .method(HttpMethod.GET)
+        .uri(
+            uriBuilder ->
+                uriBuilder
+                    .scheme("https")
+                    .host("api.themoviedb.org")
+                    .path("/3/tv")
+                    .queryParam("series_id", id)
+                    .build())
+        .contentType(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + apiKey)
+        .retrieve()
+        .bodyToMono(TmdbShowResponse.class);
   }
 }
