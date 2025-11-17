@@ -11,7 +11,7 @@ public class ShowResponse {
   private List<String> genres;
   private List<Season> seasons;
   private String firstAirDate;
-  private boolean isAiring;
+  private boolean airing;
 
   public ShowResponse(
       String title,
@@ -21,7 +21,7 @@ public class ShowResponse {
       List<String> genres,
       List<Season> seasons,
       String firstAirDate,
-      boolean isAiring) {
+      boolean airing) {
     this.title = title;
     this.description = description;
     this.posterPath = posterPath;
@@ -29,7 +29,7 @@ public class ShowResponse {
     this.genres = genres;
     this.seasons = seasons;
     this.firstAirDate = firstAirDate;
-    this.isAiring = isAiring;
+    this.airing = airing;
   }
 
   public String getTitle() {
@@ -89,10 +89,10 @@ public class ShowResponse {
   }
 
   public boolean isAiring() {
-    return isAiring;
+    return airing;
   }
 
-  public void setAiring(boolean isAiring) {
-    this.isAiring = isAiring;
+  public void setAiring(boolean airing) {
+    this.airing = airing;
   }
 }

@@ -47,8 +47,7 @@ public class TmdbClient {
                 uriBuilder
                     .scheme("https")
                     .host("api.themoviedb.org")
-                    .path("/3/movie")
-                    .queryParam("movie_id", id)
+                    .path("/3/movie/" + id)
                     .build())
         .contentType(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + apiKey)
@@ -61,12 +60,7 @@ public class TmdbClient {
         .method(HttpMethod.GET)
         .uri(
             uriBuilder ->
-                uriBuilder
-                    .scheme("https")
-                    .host("api.themoviedb.org")
-                    .path("/3/tv")
-                    .queryParam("series_id", id)
-                    .build())
+                uriBuilder.scheme("https").host("api.themoviedb.org").path("/3/tv/" + id).build())
         .contentType(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + apiKey)
         .retrieve()

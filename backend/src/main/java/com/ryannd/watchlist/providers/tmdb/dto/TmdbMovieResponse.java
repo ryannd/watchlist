@@ -73,7 +73,11 @@ public class TmdbMovieResponse {
 
   @JsonProperty("poster_path")
   public String getPosterPath() {
-    return posterPath;
+    if (posterPath != null) {
+      return "https://image.tmdb.org/t/p/w500" + posterPath;
+    } else {
+      return "";
+    }
   }
 
   public void setPosterPath(String posterPath) {

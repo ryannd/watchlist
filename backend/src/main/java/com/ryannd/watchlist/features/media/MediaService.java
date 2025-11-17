@@ -3,7 +3,9 @@ package com.ryannd.watchlist.features.media;
 import com.ryannd.watchlist.features.media.model.MovieResponse;
 import com.ryannd.watchlist.features.media.model.ShowResponse;
 import com.ryannd.watchlist.providers.SourceProvider;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MediaService {
   private final SourceProvider sourceProvider;
 

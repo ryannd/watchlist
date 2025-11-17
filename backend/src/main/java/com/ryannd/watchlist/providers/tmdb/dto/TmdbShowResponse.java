@@ -29,7 +29,11 @@ public class TmdbShowResponse {
 
   @JsonProperty("backdrop_path")
   public String getBackdropPath() {
-    return backdropPath;
+    if (backdropPath != null) {
+      return "https://image.tmdb.org/t/p/w500" + backdropPath;
+    } else {
+      return "";
+    }
   }
 
   public void setBackdropPath(String backdropPath) {
@@ -61,7 +65,7 @@ public class TmdbShowResponse {
     this.id = id;
   }
 
-  @JsonProperty("is_in_production")
+  @JsonProperty("in_production")
   public boolean isInProduction() {
     return inProduction;
   }
@@ -117,7 +121,11 @@ public class TmdbShowResponse {
 
   @JsonProperty("poster_path")
   public String getPosterPath() {
-    return posterPath;
+    if (posterPath != null) {
+      return "https://image.tmdb.org/t/p/w500" + posterPath;
+    } else {
+      return "";
+    }
   }
 
   public void setPosterPath(String posterPath) {
