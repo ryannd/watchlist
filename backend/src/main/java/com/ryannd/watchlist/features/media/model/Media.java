@@ -1,7 +1,9 @@
 package com.ryannd.watchlist.features.media.model;
 
+import com.ryannd.watchlist.features.list.model.Entry;
 import com.ryannd.watchlist.features.media.metadata.MediaMetadata;
 import com.vladmihalcea.hibernate.type.json.JsonType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,8 +11,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -33,6 +38,9 @@ public class Media {
   @Type(JsonType.class)
   @Column(columnDefinition = "jsonb")
   private MediaMetadata metadata;
+
+  @OneToMany(mappedBy = "media", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Entry> entries = new ArrayList<>();
 
   public Media(Long id, String title, MediaType type, MediaSource source, MediaMetadata metadata) {
     this.id = id;
@@ -72,5 +80,21 @@ public class Media {
 
   public void setMetadata(MediaMetadata metadata) {
     this.metadata = metadata;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public List<Entry> getEntries() {
+    return entries;
+  }
+
+  public void setEntries(List<Entry> entries) {
+    this.entries = entries;
   }
 }
