@@ -12,6 +12,7 @@ import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
 import { getThemeServerFn } from '@/lib/theme'
+import AuthProvider from '@/features/auth/providers/AuthProvider'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -51,7 +52,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <TanstackDevtools
           config={{
             position: 'bottom-left',
