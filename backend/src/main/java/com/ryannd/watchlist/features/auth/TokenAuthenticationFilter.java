@@ -5,6 +5,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.ryannd.watchlist.config.SecurityConfig;
+import com.ryannd.watchlist.features.user.model.UserEntity;
+import com.ryannd.watchlist.features.user.model.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,10 +30,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
   private final FirebaseAuth firebaseAuth;
   private final ObjectMapper objectMapper;
+  private final UserService userService;
 
-  public TokenAuthenticationFilter(FirebaseAuth firebaseAuth, ObjectMapper objectMapper) {
+  public TokenAuthenticationFilter(
+      FirebaseAuth firebaseAuth, ObjectMapper objectMapper, UserService userService) {
     this.firebaseAuth = firebaseAuth;
     this.objectMapper = objectMapper;
+    this.userService = userService;
   }
 
   @Override
@@ -49,11 +54,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX)) {
       String token = authorizationHeader.substring(BEARER_PREFIX.length());
-      Optional<String> userId = extractUserIdFromToken(token);
+      Optional<String> firebaseUid = extractUserIdFromToken(token);
 
-      if (userId.isPresent()) {
+      if (firebaseUid.isPresent()) {
+        UserEntity user = userService.getOrCreateUser(firebaseUid.get());
         UsernamePasswordAuthenticationToken authentication =
-            new UsernamePasswordAuthenticationToken(userId.get(), null, null);
+            new UsernamePasswordAuthenticationToken(user.getId(), null, null);
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } else {

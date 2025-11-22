@@ -3,6 +3,7 @@ package com.ryannd.watchlist.features.list.model;
 import com.ryannd.watchlist.features.list.model.metadata.EntryMetadata;
 import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
+import com.ryannd.watchlist.features.user.model.UserEntity;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.Type;
 
@@ -26,6 +28,10 @@ public class EntryEntity {
   @ManyToOne
   @JoinColumn(name = "media_id", nullable = false)
   private MediaEntity media;
+
+  @OneToOne
+  @JoinColumn(name = "user_id", nullable = false)
+  private UserEntity user;
 
   @Enumerated(EnumType.STRING)
   private MediaType mediaType;
