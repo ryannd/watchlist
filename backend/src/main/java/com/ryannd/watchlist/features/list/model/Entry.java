@@ -1,7 +1,7 @@
 package com.ryannd.watchlist.features.list.model;
 
 import com.ryannd.watchlist.features.list.model.metadata.EntryMetadata;
-import com.ryannd.watchlist.features.media.model.Media;
+import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
@@ -25,7 +25,7 @@ public class Entry {
 
   @ManyToOne
   @JoinColumn(name = "media_id", nullable = false)
-  private Media media;
+  private MediaEntity media;
 
   @Enumerated(EnumType.STRING)
   private MediaType mediaType;

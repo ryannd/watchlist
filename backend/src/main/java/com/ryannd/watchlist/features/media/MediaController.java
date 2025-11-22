@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.features.media;
 
-import com.ryannd.watchlist.features.media.model.Media;
+import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.providers.SourceType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +18,12 @@ public class MediaController {
   }
 
   @GetMapping("/show")
-  public Media getShow(@RequestParam String id, @RequestParam SourceType source) {
+  public MediaEntity getShow(@RequestParam String id, @RequestParam SourceType source) {
     return this.mediaService.getMedia(MediaType.SHOW, source, id);
   }
 
   @GetMapping("/movie")
-  public Media getMovie(@RequestParam String id, @RequestParam SourceType source) {
+  public MediaEntity getMovie(@RequestParam String id, @RequestParam SourceType source) {
     return this.mediaService.getMedia(MediaType.MOVIE, source, id);
   }
 }

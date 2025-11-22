@@ -23,7 +23,7 @@ import org.hibernate.annotations.Type;
 @Table(
     name = "media",
     uniqueConstraints = {@UniqueConstraint(columnNames = {"title", "source"})})
-public class Media {
+public class MediaEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -45,9 +45,10 @@ public class Media {
   @OneToMany(mappedBy = "media", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Entry> entries = new ArrayList<>();
 
-  public Media() {}
+  public MediaEntity() {}
 
-  public Media(Long id, String title, MediaType type, SourceType source, MediaMetadata metadata) {
+  public MediaEntity(
+      Long id, String title, MediaType type, SourceType source, MediaMetadata metadata) {
     this.id = id;
     this.title = title;
     this.type = type;

@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.ryannd.watchlist.features.media.metadata.MovieMetadata;
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata;
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata.Season;
-import com.ryannd.watchlist.features.media.model.Media;
+import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.providers.SourceType;
 import java.util.List;
@@ -47,7 +47,8 @@ class MediaControllerTest {
             148,
             "2010-07-16");
 
-    Media movie = new Media(1L, "Inception", MediaType.MOVIE, SourceType.TMDB, metadata);
+    MediaEntity movie =
+        new MediaEntity(1L, "Inception", MediaType.MOVIE, SourceType.TMDB, metadata);
 
     when(mediaService.getMedia(MediaType.MOVIE, SourceType.TMDB, "123")).thenReturn(movie);
 
@@ -77,7 +78,8 @@ class MediaControllerTest {
             "2024-01-01",
             true);
 
-    Media show = new Media(2L, "Example Show", MediaType.SHOW, SourceType.TMDB, metadata);
+    MediaEntity show =
+        new MediaEntity(2L, "Example Show", MediaType.SHOW, SourceType.TMDB, metadata);
 
     when(mediaService.getMedia(MediaType.SHOW, SourceType.TMDB, "456")).thenReturn(show);
 

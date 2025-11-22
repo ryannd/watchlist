@@ -2,7 +2,7 @@ package com.ryannd.watchlist.features.media;
 
 import com.ryannd.watchlist.features.media.metadata.MovieMetadata;
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata;
-import com.ryannd.watchlist.features.media.model.Media;
+import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.media.model.MovieResponse;
 import com.ryannd.watchlist.features.media.model.ShowResponse;
@@ -30,15 +30,15 @@ public class MediaService {
     return providerRegistry.get(source).getShow(id);
   }
 
-  public Media getMedia(MediaType type, SourceType source, String id) {
-    Optional<Media> existingMedia = mediaRepository.findBySourceAndSourceId(source, id);
+  public MediaEntity getMedia(MediaType type, SourceType source, String id) {
+    Optional<MediaEntity> existingMedia = mediaRepository.findBySourceAndSourceId(source, id);
     if (existingMedia.isPresent()) {
       return existingMedia.get();
     }
     return createMedia(type, source, id);
   }
 
-  public Media createMedia(MediaType type, SourceType source, String id) {
+  public MediaEntity createMedia(MediaType type, SourceType source, String id) {
     switch (type) {
       case MOVIE:
         return createMovie(source, id);
@@ -49,9 +49,9 @@ public class MediaService {
     }
   }
 
-  public Media createMovie(SourceType source, String id) {
+  public MediaEntity createMovie(SourceType source, String id) {
     MovieResponse response = this.fetchMovie(id, source);
-    Media newMovie = new Media();
+    MediaEntity newMovie = new MediaEntity();
     MovieMetadata metadata =
         new MovieMetadata(
             response.getDescription(),
@@ -68,9 +68,9 @@ public class MediaService {
     return mediaRepository.save(newMovie);
   }
 
-  public Media createShow(SourceType source, String id) {
+  public MediaEntity createShow(SourceType source, String id) {
     ShowResponse response = this.fetchShow(id, source);
-    Media newShow = new Media();
+    MediaEntity newShow = new MediaEntity();
     ShowMetadata metadata =
         new ShowMetadata(
             response.getDescription(),

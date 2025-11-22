@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.ryannd.watchlist.features.media.model.Media;
+import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.media.model.MovieResponse;
 import com.ryannd.watchlist.features.media.model.ShowResponse;
@@ -38,14 +38,15 @@ public class MediaServiceTest {
     when(mockProvider.getShow("1234")).thenReturn(show);
     when(mockRepository.findBySourceAndSourceId(any(SourceType.class), any(String.class)))
         .thenReturn(Optional.empty());
-    when(mockRepository.save(any(Media.class))).thenAnswer(invocation -> invocation.getArgument(0));
+    when(mockRepository.save(any(MediaEntity.class)))
+        .thenAnswer(invocation -> invocation.getArgument(0));
   }
 
   @Test
   void getMovie_shouldReturnMovieResponse() {
     MediaService service = new MediaService(mockRegistry, mockRepository);
 
-    Media media = service.getMedia(MediaType.MOVIE, SourceType.TMDB, "1234");
+    MediaEntity media = service.getMedia(MediaType.MOVIE, SourceType.TMDB, "1234");
 
     assertNotNull(media);
     assertTrue(media.getTitle().equals("Movie"));
@@ -55,7 +56,7 @@ public class MediaServiceTest {
   void getShow_shouldReturnShowResponse() {
     MediaService service = new MediaService(mockRegistry, mockRepository);
 
-    Media media = service.getMedia(MediaType.SHOW, SourceType.TMDB, "1234");
+    MediaEntity media = service.getMedia(MediaType.SHOW, SourceType.TMDB, "1234");
 
     assertNotNull(media);
     assertTrue(media.getTitle().equals("Show"));
