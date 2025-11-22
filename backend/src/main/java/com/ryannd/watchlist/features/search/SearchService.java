@@ -1,18 +1,19 @@
 package com.ryannd.watchlist.features.search;
 
 import com.ryannd.watchlist.features.search.model.SearchResponse;
-import com.ryannd.watchlist.providers.SourceProvider;
+import com.ryannd.watchlist.providers.SourceProviderRegistry;
+import com.ryannd.watchlist.providers.SourceType;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SearchService {
-  private final SourceProvider sourceProvider;
+  private final SourceProviderRegistry providerRegistry;
 
-  public SearchService(SourceProvider sourceProvider) {
-    this.sourceProvider = sourceProvider;
+  public SearchService(SourceProviderRegistry providerRegistry) {
+    this.providerRegistry = providerRegistry;
   }
 
-  public SearchResponse search(String query, String page) {
-    return sourceProvider.searchByQuery(query, page);
+  public SearchResponse search(String query, String page, SourceType sourceType) {
+    return providerRegistry.get(sourceType).searchByQuery(query, page);
   }
 }

@@ -2,6 +2,7 @@ package com.ryannd.watchlist.features.media.model;
 
 import com.ryannd.watchlist.features.list.model.Entry;
 import com.ryannd.watchlist.features.media.metadata.MediaMetadata;
+import com.ryannd.watchlist.providers.SourceType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,7 +34,9 @@ public class Media {
   private MediaType type;
 
   @Enumerated(EnumType.STRING)
-  private MediaSource source;
+  private SourceType source;
+
+  private String sourceId;
 
   @Type(JsonType.class)
   @Column(columnDefinition = "jsonb")
@@ -42,7 +45,9 @@ public class Media {
   @OneToMany(mappedBy = "media", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Entry> entries = new ArrayList<>();
 
-  public Media(Long id, String title, MediaType type, MediaSource source, MediaMetadata metadata) {
+  public Media() {}
+
+  public Media(Long id, String title, MediaType type, SourceType source, MediaMetadata metadata) {
     this.id = id;
     this.title = title;
     this.type = type;
@@ -66,11 +71,11 @@ public class Media {
     this.type = type;
   }
 
-  public MediaSource getSource() {
+  public SourceType getSource() {
     return source;
   }
 
-  public void setSource(MediaSource source) {
+  public void setSource(SourceType source) {
     this.source = source;
   }
 
@@ -96,5 +101,13 @@ public class Media {
 
   public void setEntries(List<Entry> entries) {
     this.entries = entries;
+  }
+
+  public String getSourceId() {
+    return sourceId;
+  }
+
+  public void setSourceId(String sourceId) {
+    this.sourceId = sourceId;
   }
 }

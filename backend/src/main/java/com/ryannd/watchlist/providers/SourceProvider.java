@@ -5,6 +5,8 @@ import com.ryannd.watchlist.features.media.model.ShowResponse;
 import com.ryannd.watchlist.features.search.model.SearchResponse;
 
 public interface SourceProvider {
+  SourceType getSourceType();
+
   SearchResponse searchByQuery(String query, String page);
 
   MovieResponse getMovie(String id);

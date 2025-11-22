@@ -1,23 +1,90 @@
 package com.ryannd.watchlist.features.media;
 
+import com.ryannd.watchlist.features.media.metadata.MovieMetadata;
+import com.ryannd.watchlist.features.media.metadata.ShowMetadata;
+import com.ryannd.watchlist.features.media.model.Media;
+import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.media.model.MovieResponse;
 import com.ryannd.watchlist.features.media.model.ShowResponse;
-import com.ryannd.watchlist.providers.SourceProvider;
+import com.ryannd.watchlist.features.media.repository.MediaRepository;
+import com.ryannd.watchlist.providers.SourceProviderRegistry;
+import com.ryannd.watchlist.providers.SourceType;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MediaService {
-  private final SourceProvider sourceProvider;
+  private final SourceProviderRegistry providerRegistry;
+  private final MediaRepository mediaRepository;
 
-  public MediaService(SourceProvider sourceProvider) {
-    this.sourceProvider = sourceProvider;
+  public MediaService(SourceProviderRegistry providerRegistry, MediaRepository mediaRepository) {
+    this.providerRegistry = providerRegistry;
+    this.mediaRepository = mediaRepository;
   }
 
-  public MovieResponse getMovie(String id) {
-    return this.sourceProvider.getMovie(id);
+  private MovieResponse fetchMovie(String id, SourceType source) {
+    return providerRegistry.get(source).getMovie(id);
   }
 
-  public ShowResponse getShow(String id) {
-    return this.sourceProvider.getShow(id);
+  private ShowResponse fetchShow(String id, SourceType source) {
+    return providerRegistry.get(source).getShow(id);
+  }
+
+  public Media getMedia(MediaType type, SourceType source, String id) {
+    Optional<Media> existingMedia = mediaRepository.findBySourceAndSourceId(source, id);
+    if (existingMedia.isPresent()) {
+      return existingMedia.get();
+    }
+    return createMedia(type, source, id);
+  }
+
+  public Media createMedia(MediaType type, SourceType source, String id) {
+    switch (type) {
+      case MOVIE:
+        return createMovie(source, id);
+      case SHOW:
+        return createShow(source, id);
+      default:
+        throw new IllegalArgumentException("Unsupported media type: " + type);
+    }
+  }
+
+  public Media createMovie(SourceType source, String id) {
+    MovieResponse response = this.fetchMovie(id, source);
+    Media newMovie = new Media();
+    MovieMetadata metadata =
+        new MovieMetadata(
+            response.getDescription(),
+            response.getBackgroundPath(),
+            response.getPosterPath(),
+            response.getGenres(),
+            response.getRuntime(),
+            response.getReleaseDate());
+    newMovie.setMetadata(metadata);
+    newMovie.setSource(source);
+    newMovie.setTitle(response.getTitle());
+    newMovie.setType(MediaType.MOVIE);
+    newMovie.setSourceId(id);
+    return mediaRepository.save(newMovie);
+  }
+
+  public Media createShow(SourceType source, String id) {
+    ShowResponse response = this.fetchShow(id, source);
+    Media newShow = new Media();
+    ShowMetadata metadata =
+        new ShowMetadata(
+            response.getDescription(),
+            response.getBackgroundPath(),
+            response.getPosterPath(),
+            response.getGenres(),
+            response.getSeasons(),
+            response.getFirstAirDate(),
+            response.isAiring());
+    newShow.setMetadata(metadata);
+    newShow.setSource(source);
+    newShow.setTitle(response.getTitle());
+    newShow.setType(MediaType.SHOW);
+    newShow.setSourceId(id);
+    return mediaRepository.save(newShow);
   }
 }

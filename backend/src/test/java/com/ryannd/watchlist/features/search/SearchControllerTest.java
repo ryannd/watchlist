@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ryannd.watchlist.features.search.model.SearchResponse;
 import com.ryannd.watchlist.features.search.model.SearchResult;
+import com.ryannd.watchlist.providers.SourceType;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class SearchControllerTest {
 
     SearchResponse response = new SearchResponse(results, 1, 1);
 
-    when(searchService.search("Inception", "1")).thenReturn(response);
+    when(searchService.search("Inception", "1", SourceType.TMDB)).thenReturn(response);
 
     mockMvc
         .perform(get("/api/search/").param("query", "Inception"))
@@ -51,8 +52,8 @@ public class SearchControllerTest {
     SearchResponse resPageOne = new SearchResponse(resultsPageOne, 1, 2);
     SearchResponse resPageTwo = new SearchResponse(resultsPageTwo, 2, 2);
 
-    when(searchService.search("Inception", "1")).thenReturn(resPageOne);
-    when(searchService.search("Inception", "2")).thenReturn(resPageTwo);
+    when(searchService.search("Inception", "1", SourceType.TMDB)).thenReturn(resPageOne);
+    when(searchService.search("Inception", "2", SourceType.TMDB)).thenReturn(resPageTwo);
 
     mockMvc
         .perform(get("/api/search/").param("query", "Inception").param("page", "2"))

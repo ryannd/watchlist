@@ -6,6 +6,7 @@ import com.ryannd.watchlist.features.media.model.ShowResponse;
 import com.ryannd.watchlist.features.search.model.SearchResponse;
 import com.ryannd.watchlist.features.search.model.SearchResult;
 import com.ryannd.watchlist.providers.SourceProvider;
+import com.ryannd.watchlist.providers.SourceType;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbMovieResponse;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResponse;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResult;
@@ -20,6 +21,11 @@ public class TmdbProvider implements SourceProvider {
 
   public TmdbProvider(TmdbClient tmdbClient) {
     this.tmdbClient = tmdbClient;
+  }
+
+  @Override
+  public SourceType getSourceType() {
+    return SourceType.TMDB;
   }
 
   @Override
