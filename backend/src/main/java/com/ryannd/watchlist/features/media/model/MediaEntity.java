@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.features.media.model;
 
-import com.ryannd.watchlist.features.list.model.Entry;
+import com.ryannd.watchlist.features.list.model.EntryEntity;
 import com.ryannd.watchlist.features.media.metadata.MediaMetadata;
 import com.ryannd.watchlist.providers.SourceType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
@@ -43,7 +43,7 @@ public class MediaEntity {
   private MediaMetadata metadata;
 
   @OneToMany(mappedBy = "media", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Entry> entries = new ArrayList<>();
+  private List<EntryEntity> entries = new ArrayList<>();
 
   public MediaEntity() {}
 
@@ -96,11 +96,11 @@ public class MediaEntity {
     this.id = id;
   }
 
-  public List<Entry> getEntries() {
+  public List<EntryEntity> getEntries() {
     return entries;
   }
 
-  public void setEntries(List<Entry> entries) {
+  public void setEntries(List<EntryEntity> entries) {
     this.entries = entries;
   }
 
