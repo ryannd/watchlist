@@ -27,8 +27,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password: creds.password,
         displayName: creds.displayName,
       })
-    } catch (error) {
-      console.error('Sign up error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -38,8 +36,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true)
     try {
       await firebaseSignIn({ email: creds.email, password: creds.password })
-    } catch (error) {
-      console.error('Sign in error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -50,8 +46,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await firebaseSignOut()
       setCurrentUser(null)
-    } catch (error) {
-      console.error('Sign out error:', error)
     } finally {
       setIsLoading(false)
     }

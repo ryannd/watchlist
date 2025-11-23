@@ -16,11 +16,12 @@ import {
 } from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
-export default function SignInForm() {
+export default function SignUpForm() {
   const navigate = useNavigate()
-  const { signIn, loading } = useAuth()
+  const { signUp, loading } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [displayName, setDisplayName] = useState('')
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: FormEvent) => {
@@ -28,7 +29,7 @@ export default function SignInForm() {
     setError(null)
 
     try {
-      await signIn({ email, password })
+      await signUp({ displayName, email, password })
       navigate({ to: '/' })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to sign in')
@@ -38,8 +39,8 @@ export default function SignInForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sign in</CardTitle>
-        <CardDescription>Welcome back!</CardDescription>
+        <CardTitle>Sign up</CardTitle>
+        <CardDescription>Welcome! Sign up for an account here.</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
         {error && (
@@ -50,9 +51,21 @@ export default function SignInForm() {
           </Alert>
         )}
         <div className="grid gap-3">
+          <Label htmlFor="tabs-demo-name">Display Name</Label>
+          <Input
+            id="tabs-demo-name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            placeholder="Display name"
+            disabled={loading}
+            required
+          />
+        </div>
+        <div className="grid gap-3">
           <Label htmlFor="tabs-demo-name">Email</Label>
           <Input
             id="tabs-demo-name"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             disabled={loading}
@@ -63,6 +76,7 @@ export default function SignInForm() {
           <Label htmlFor="tabs-demo-username">Password</Label>
           <Input
             id="tabs-demo-username"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             type="password"
@@ -73,7 +87,7 @@ export default function SignInForm() {
       </CardContent>
       <CardFooter>
         <Button onClick={handleSubmit} disabled={loading}>
-          Sign In
+          Sign Up
         </Button>
       </CardFooter>
     </Card>

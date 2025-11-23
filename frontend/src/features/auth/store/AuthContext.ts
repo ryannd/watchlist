@@ -5,7 +5,7 @@ import { firebaseAuth } from '@/integrations/firebase'
 export const AuthContext = createContext<IAuth>({
   user: firebaseAuth.currentUser,
   loading: false,
-  signIn: () => {},
-  signUp: () => {},
-  signOut: () => {},
+  signIn: async () => {},
+  signUp: async () => {},
+  signOut: async () => {},
 })
