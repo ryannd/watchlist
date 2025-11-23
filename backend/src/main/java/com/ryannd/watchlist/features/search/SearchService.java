@@ -13,7 +13,7 @@ public class SearchService {
     this.providerRegistry = providerRegistry;
   }
 
-  public SearchResponse search(String query, String page, SourceType sourceType) {
-    return providerRegistry.get(sourceType).searchByQuery(query, page);
+  public SearchResponse search(String query, int page, SourceType sourceType) {
+    return providerRegistry.get(sourceType).searchByQuery(query, String.valueOf(page));
   }
 }

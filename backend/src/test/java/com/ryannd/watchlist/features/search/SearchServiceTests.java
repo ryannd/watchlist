@@ -3,7 +3,6 @@ package com.ryannd.watchlist.features.search;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -17,16 +16,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class SearchServiceTests {
+class SearchServiceTest {
   private SourceProvider mockProvider;
   private SourceProviderRegistry mockRegistry;
+  private SearchService service;
 
   @BeforeEach
   void setUp() {
     mockProvider = Mockito.mock(SourceProvider.class);
     mockRegistry = Mockito.mock(SourceProviderRegistry.class);
+    service = new SearchService(mockRegistry);
 
-    SearchResponse pageOne =
+    var pageOne =
         new SearchResponse(
             List.of(
                 new SearchResult(
@@ -34,7 +35,7 @@ public class SearchServiceTests {
             1,
             2);
 
-    SearchResponse pageTwo =
+    var pageTwo =
         new SearchResponse(
             List.of(
                 new SearchResult(456, "Page2", "overview", "backdrop", "poster", "movie", "2000")),
@@ -47,24 +48,20 @@ public class SearchServiceTests {
   }
 
   @Test
-  void searchByQuery_shouldReturnResults() {
-    SearchService service = new SearchService(mockRegistry);
-
-    SearchResponse response = service.search("Inception", "1", SourceType.TMDB);
+  void search_shouldReturnResults() {
+    SearchResponse response = service.search("Inception", 1, SourceType.TMDB);
 
     assertNotNull(response);
-    assertFalse(response.getResults().isEmpty());
-    assertTrue(response.getResults().stream().anyMatch(r -> r.getTitle().equals("Inception")));
+    assertFalse(response.results().isEmpty());
+    assertEquals("Inception", response.results().get(0).title());
   }
 
   @Test
-  void searchByQuery_shouldReturnPage() {
-    SearchService service = new SearchService(mockRegistry);
-
-    SearchResponse response = service.search("Inception", "2", SourceType.TMDB);
+  void search_shouldReturnCorrectPage() {
+    SearchResponse response = service.search("Inception", 2, SourceType.TMDB);
 
     assertNotNull(response);
-    assertFalse(response.getResults().isEmpty());
-    assertEquals(2, response.getCurrentPage());
+    assertEquals(2, response.currentPage());
+    assertEquals("Page2", response.results().get(0).title());
   }
 }
