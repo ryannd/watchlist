@@ -2,7 +2,7 @@ package com.ryannd.watchlist.features.media.metadata;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.ryannd.watchlist.features.media.dto.MediaMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.MediaMetadataDto;
 import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")

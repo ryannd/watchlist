@@ -6,8 +6,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.ryannd.watchlist.features.media.dto.MovieDto;
-import com.ryannd.watchlist.features.media.dto.ShowDto;
+import com.ryannd.watchlist.features.media.dto.media.MovieDto;
+import com.ryannd.watchlist.features.media.dto.media.ShowDto;
 import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.media.repository.MediaRepository;

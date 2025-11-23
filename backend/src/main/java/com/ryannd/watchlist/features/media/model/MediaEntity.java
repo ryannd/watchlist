@@ -1,9 +1,9 @@
 package com.ryannd.watchlist.features.media.model;
 
 import com.ryannd.watchlist.features.list.model.EntryEntity;
-import com.ryannd.watchlist.features.media.dto.MediaMetadataDto;
-import com.ryannd.watchlist.features.media.dto.MovieMetadataDto;
-import com.ryannd.watchlist.features.media.dto.ShowMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.MediaMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.MovieMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.ShowMetadataDto;
 import com.ryannd.watchlist.features.media.metadata.MediaMetadata;
 import com.ryannd.watchlist.features.media.metadata.MovieMetadata;
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata;

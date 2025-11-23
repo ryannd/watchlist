@@ -1,5 +1,8 @@
-package com.ryannd.watchlist.features.media.dto;
+package com.ryannd.watchlist.features.media.dto.media;
 
+import com.ryannd.watchlist.features.media.dto.metadata.MediaMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.MovieMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.ShowMetadataDto;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import java.util.List;
 

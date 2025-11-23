@@ -1,4 +1,4 @@
-package com.ryannd.watchlist.features.media.dto;
+package com.ryannd.watchlist.features.media.dto.media;
 
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata.Season;
 import com.ryannd.watchlist.features.media.model.MediaType;

@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.features.media.metadata;
 
-import com.ryannd.watchlist.features.media.dto.ShowMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.ShowMetadataDto;
 import java.util.List;
 
 public class ShowMetadata extends MediaMetadata {

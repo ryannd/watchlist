@@ -1,4 +1,4 @@
-package com.ryannd.watchlist.features.media.dto;
+package com.ryannd.watchlist.features.media.dto.metadata;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.providers;
 
-import com.ryannd.watchlist.features.media.dto.MediaDto;
+import com.ryannd.watchlist.features.media.dto.media.MediaDto;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.search.model.SearchResponse;
 

@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.features.media;
 
-import com.ryannd.watchlist.features.media.dto.MediaDto;
+import com.ryannd.watchlist.features.media.dto.media.MediaDto;
 import com.ryannd.watchlist.features.media.model.MediaEntity;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.media.repository.MediaRepository;

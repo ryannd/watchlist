@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.features.media.metadata;
 
-import com.ryannd.watchlist.features.media.dto.MovieMetadataDto;
+import com.ryannd.watchlist.features.media.dto.metadata.MovieMetadataDto;
 
 public final class MovieMetadata extends MediaMetadata {
   private Integer runtime;

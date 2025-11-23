@@ -1,8 +1,8 @@
 package com.ryannd.watchlist.providers.tmdb;
 
-import com.ryannd.watchlist.features.media.dto.MediaDto;
-import com.ryannd.watchlist.features.media.dto.MovieDto;
-import com.ryannd.watchlist.features.media.dto.ShowDto;
+import com.ryannd.watchlist.features.media.dto.media.MediaDto;
+import com.ryannd.watchlist.features.media.dto.media.MovieDto;
+import com.ryannd.watchlist.features.media.dto.media.ShowDto;
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata.Season;
 import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.search.model.SearchResponse;
