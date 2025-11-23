@@ -1,21 +1,17 @@
 package com.ryannd.watchlist.features.media.metadata;
 
-import java.util.List;
+import com.ryannd.watchlist.features.media.dto.MovieMetadataDto;
 
-public class MovieMetadata extends MediaMetadata {
+public final class MovieMetadata extends MediaMetadata {
   private Integer runtime;
   private String releaseDate;
 
-  public MovieMetadata(
-      String description,
-      String backgroundImage,
-      String posterImage,
-      List<String> genres,
-      Integer runtime,
-      String releaseDate) {
-    super(description, backgroundImage, posterImage, genres);
-    this.runtime = runtime;
-    this.releaseDate = releaseDate;
+  public MovieMetadata() {}
+
+  public MovieMetadata(MovieMetadataDto dto) {
+    super(dto);
+    this.runtime = dto.runtime();
+    this.releaseDate = dto.releaseDate();
   }
 
   public Integer getRuntime() {

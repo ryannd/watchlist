@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(
-    name = "user",
+    name = "users",
     uniqueConstraints = {@UniqueConstraint(columnNames = {"firebaseUid"})})
 public class UserEntity {
   @Id

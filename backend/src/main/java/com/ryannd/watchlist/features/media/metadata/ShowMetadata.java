@@ -1,11 +1,14 @@
 package com.ryannd.watchlist.features.media.metadata;
 
+import com.ryannd.watchlist.features.media.dto.ShowMetadataDto;
 import java.util.List;
 
 public class ShowMetadata extends MediaMetadata {
   public static class Season {
     private int seasonNumber;
     private int episodeCount;
+
+    public Season() {}
 
     public Season(int seasonNumber, int episodeCount) {
       this.seasonNumber = seasonNumber;
@@ -33,6 +36,15 @@ public class ShowMetadata extends MediaMetadata {
   private String firstAirDate;
   private boolean isAiring;
 
+  public ShowMetadata() {}
+
+  public ShowMetadata(ShowMetadataDto dto) {
+    super(dto);
+    this.seasons = dto.seasons();
+    this.firstAirDate = dto.firstAirDate();
+    this.isAiring = dto.isAiring();
+  }
+
   public List<Season> getSeasons() {
     return seasons;
   }
@@ -54,20 +66,6 @@ public class ShowMetadata extends MediaMetadata {
   }
 
   public void setAiring(boolean isAiring) {
-    this.isAiring = isAiring;
-  }
-
-  public ShowMetadata(
-      String description,
-      String backgroundImage,
-      String posterImage,
-      List<String> genres,
-      List<Season> seasons,
-      String firstAirDate,
-      boolean isAiring) {
-    super(description, backgroundImage, posterImage, genres);
-    this.seasons = seasons;
-    this.firstAirDate = firstAirDate;
     this.isAiring = isAiring;
   }
 }

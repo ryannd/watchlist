@@ -1,7 +1,12 @@
 package com.ryannd.watchlist.features.media.model;
 
 import com.ryannd.watchlist.features.list.model.EntryEntity;
+import com.ryannd.watchlist.features.media.dto.MediaMetadataDto;
+import com.ryannd.watchlist.features.media.dto.MovieMetadataDto;
+import com.ryannd.watchlist.features.media.dto.ShowMetadataDto;
 import com.ryannd.watchlist.features.media.metadata.MediaMetadata;
+import com.ryannd.watchlist.features.media.metadata.MovieMetadata;
+import com.ryannd.watchlist.features.media.metadata.ShowMetadata;
 import com.ryannd.watchlist.providers.SourceType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.CascadeType;
@@ -47,15 +52,6 @@ public class MediaEntity {
 
   public MediaEntity() {}
 
-  public MediaEntity(
-      Long id, String title, MediaType type, SourceType source, MediaMetadata metadata) {
-    this.id = id;
-    this.title = title;
-    this.type = type;
-    this.source = source;
-    this.metadata = metadata;
-  }
-
   public String getTitle() {
     return title;
   }
@@ -84,8 +80,12 @@ public class MediaEntity {
     return metadata;
   }
 
-  public void setMetadata(MediaMetadata metadata) {
-    this.metadata = metadata;
+  public void setMetadata(MediaMetadataDto dto) {
+    this.metadata =
+        switch (dto) {
+          case MovieMetadataDto m -> new MovieMetadata(m);
+          case ShowMetadataDto s -> new ShowMetadata(s);
+        };
   }
 
   public Long getId() {

@@ -1,8 +1,10 @@
 package com.ryannd.watchlist.providers.tmdb;
 
+import com.ryannd.watchlist.features.media.dto.MediaDto;
+import com.ryannd.watchlist.features.media.dto.MovieDto;
+import com.ryannd.watchlist.features.media.dto.ShowDto;
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata.Season;
-import com.ryannd.watchlist.features.media.model.MovieResponse;
-import com.ryannd.watchlist.features.media.model.ShowResponse;
+import com.ryannd.watchlist.features.media.model.MediaType;
 import com.ryannd.watchlist.features.search.model.SearchResponse;
 import com.ryannd.watchlist.features.search.model.SearchResult;
 import com.ryannd.watchlist.providers.SourceProvider;
@@ -12,7 +14,6 @@ import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResponse;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbSearchResult;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbShowResponse;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,20 +30,52 @@ public class TmdbProvider implements SourceProvider {
   }
 
   @Override
-  public SearchResponse searchByQuery(String query, String page) {
-    TmdbSearchResponse tmdbResponse = tmdbClient.search(query, page).block();
-    List<SearchResult> results =
-        tmdbResponse.getResults().stream()
-            .filter(r -> !"person".equalsIgnoreCase(r.getMediaType()))
-            .map(this::mapToSearchResult)
-            .collect(Collectors.toList());
-
-    SearchResponse response =
-        new SearchResponse(results, tmdbResponse.getPage(), tmdbResponse.getTotalPages());
-    return response;
+  public MediaDto fetchMedia(MediaType type, String id) {
+    return switch (type) {
+      case MOVIE -> fetchMovie(id);
+      case SHOW -> fetchShow(id);
+    };
   }
 
-  private SearchResult mapToSearchResult(TmdbSearchResult result) {
+  private MovieDto fetchMovie(String id) {
+    TmdbMovieResponse response = tmdbClient.getMovie(id).block();
+    return new MovieDto(
+        response.getTitle(),
+        response.getOverview(),
+        response.getPosterPath(),
+        response.getBackdropPath(),
+        response.getGenres().stream().map(g -> g.getName()).toList(),
+        response.getRuntime(),
+        response.getReleaseDate());
+  }
+
+  private ShowDto fetchShow(String id) {
+    TmdbShowResponse response = tmdbClient.getShow(id).block();
+    List<Season> seasons =
+        response.getSeasons().stream()
+            .map(s -> new Season(s.getSeasonNumber(), s.getEpisodeCount()))
+            .toList();
+
+    return new ShowDto(
+        response.getName(),
+        response.getOverview(),
+        response.getPosterPath(),
+        response.getBackdropPath(),
+        response.getGenres().stream().map(g -> g.getName()).toList(),
+        seasons,
+        response.getFirstAirDate(),
+        response.isInProduction());
+  }
+
+  @Override
+  public SearchResponse searchByQuery(String query, String page) {
+    TmdbSearchResponse response = tmdbClient.search(query, page).block();
+    List<SearchResult> results = response.getResults().stream().map(this::toSearchResult).toList();
+
+    return new SearchResponse(results, response.getPage(), response.getTotalPages());
+  }
+
+  private SearchResult toSearchResult(TmdbSearchResult result) {
     return new SearchResult(
         result.getId(),
         result.getTitle(),
@@ -51,40 +84,5 @@ public class TmdbProvider implements SourceProvider {
         result.getPosterPath(),
         result.getMediaType(),
         result.getReleaseDate());
-  }
-
-  @Override
-  public MovieResponse getMovie(String id) {
-    TmdbMovieResponse response = tmdbClient.getMovie(id).block();
-    List<String> genres =
-        response.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toList());
-    return new MovieResponse(
-        response.getTitle(),
-        response.getOverview(),
-        response.getPosterPath(),
-        response.getBackdropPath(),
-        genres,
-        response.getRuntime(),
-        response.getReleaseDate());
-  }
-
-  @Override
-  public ShowResponse getShow(String id) {
-    TmdbShowResponse response = tmdbClient.getShow(id).block();
-    List<String> genres =
-        response.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toList());
-    List<Season> seasons =
-        response.getSeasons().stream()
-            .map(season -> new Season(season.getSeasonNumber(), season.getEpisodeCount()))
-            .collect(Collectors.toList());
-    return new ShowResponse(
-        response.getName(),
-        response.getOverview(),
-        response.getPosterPath(),
-        response.getBackdropPath(),
-        genres,
-        seasons,
-        response.getFirstAirDate(),
-        response.isInProduction());
   }
 }

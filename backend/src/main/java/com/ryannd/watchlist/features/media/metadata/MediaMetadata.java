@@ -2,6 +2,7 @@ package com.ryannd.watchlist.features.media.metadata;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.ryannd.watchlist.features.media.dto.MediaMetadataDto;
 import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
@@ -15,12 +16,13 @@ public abstract class MediaMetadata {
   private String posterImage;
   private List<String> genres;
 
-  public MediaMetadata(
-      String description, String backgroundImage, String posterImage, List<String> genres) {
-    this.description = description;
-    this.backgroundImage = backgroundImage;
-    this.posterImage = posterImage;
-    this.genres = genres;
+  protected MediaMetadata() {}
+
+  public MediaMetadata(MediaMetadataDto dto) {
+    this.description = dto.description();
+    this.backgroundImage = dto.backdropPath();
+    this.posterImage = dto.posterPath();
+    this.genres = dto.genres();
   }
 
   public String getDescription() {
