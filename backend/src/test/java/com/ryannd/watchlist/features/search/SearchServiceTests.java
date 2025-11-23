@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.ryannd.watchlist.features.search.model.SearchResponse;
-import com.ryannd.watchlist.features.search.model.SearchResult;
+import com.ryannd.watchlist.features.search.dto.SearchResponseDto;
+import com.ryannd.watchlist.features.search.dto.SearchResultDto;
 import com.ryannd.watchlist.providers.SourceProvider;
 import com.ryannd.watchlist.providers.SourceProviderRegistry;
 import com.ryannd.watchlist.providers.SourceType;
@@ -28,17 +28,18 @@ class SearchServiceTest {
     service = new SearchService(mockRegistry);
 
     var pageOne =
-        new SearchResponse(
+        new SearchResponseDto(
             List.of(
-                new SearchResult(
+                new SearchResultDto(
                     123, "Inception", "overview", "backdrop", "poster", "movie", "2000")),
             1,
             2);
 
     var pageTwo =
-        new SearchResponse(
+        new SearchResponseDto(
             List.of(
-                new SearchResult(456, "Page2", "overview", "backdrop", "poster", "movie", "2000")),
+                new SearchResultDto(
+                    456, "Page2", "overview", "backdrop", "poster", "movie", "2000")),
             2,
             2);
 
@@ -49,7 +50,7 @@ class SearchServiceTest {
 
   @Test
   void search_shouldReturnResults() {
-    SearchResponse response = service.search("Inception", 1, SourceType.TMDB);
+    SearchResponseDto response = service.search("Inception", 1, SourceType.TMDB);
 
     assertNotNull(response);
     assertFalse(response.results().isEmpty());
@@ -58,7 +59,7 @@ class SearchServiceTest {
 
   @Test
   void search_shouldReturnCorrectPage() {
-    SearchResponse response = service.search("Inception", 2, SourceType.TMDB);
+    SearchResponseDto response = service.search("Inception", 2, SourceType.TMDB);
 
     assertNotNull(response);
     assertEquals(2, response.currentPage());

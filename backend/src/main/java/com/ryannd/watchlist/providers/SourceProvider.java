@@ -2,12 +2,12 @@ package com.ryannd.watchlist.providers;
 
 import com.ryannd.watchlist.features.media.dto.media.MediaDto;
 import com.ryannd.watchlist.features.media.model.MediaType;
-import com.ryannd.watchlist.features.search.model.SearchResponse;
+import com.ryannd.watchlist.features.search.dto.SearchResponseDto;
 
 public interface SourceProvider {
   SourceType getSourceType();
 
-  SearchResponse searchByQuery(String query, String page);
+  SearchResponseDto searchByQuery(String query, String page);
 
   MediaDto fetchMedia(MediaType type, String id);
 }

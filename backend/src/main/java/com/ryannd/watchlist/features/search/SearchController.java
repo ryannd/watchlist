@@ -1,6 +1,6 @@
 package com.ryannd.watchlist.features.search;
 
-import com.ryannd.watchlist.features.search.model.SearchResponse;
+import com.ryannd.watchlist.features.search.dto.SearchResponseDto;
 import com.ryannd.watchlist.providers.SourceType;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +20,7 @@ public class SearchController {
   }
 
   @GetMapping
-  public ResponseEntity<SearchResponse> search(
+  public ResponseEntity<SearchResponseDto> search(
       @RequestParam @NotBlank String query,
       @RequestParam(defaultValue = "1") @Min(1) int page,
       @RequestParam(defaultValue = "TMDB") SourceType source) {

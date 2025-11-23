@@ -5,8 +5,8 @@ import com.ryannd.watchlist.features.media.dto.media.MovieDto;
 import com.ryannd.watchlist.features.media.dto.media.ShowDto;
 import com.ryannd.watchlist.features.media.metadata.ShowMetadata.Season;
 import com.ryannd.watchlist.features.media.model.MediaType;
-import com.ryannd.watchlist.features.search.model.SearchResponse;
-import com.ryannd.watchlist.features.search.model.SearchResult;
+import com.ryannd.watchlist.features.search.dto.SearchResponseDto;
+import com.ryannd.watchlist.features.search.dto.SearchResultDto;
 import com.ryannd.watchlist.providers.SourceProvider;
 import com.ryannd.watchlist.providers.SourceType;
 import com.ryannd.watchlist.providers.tmdb.dto.TmdbMovieResponse;
@@ -68,15 +68,16 @@ public class TmdbProvider implements SourceProvider {
   }
 
   @Override
-  public SearchResponse searchByQuery(String query, String page) {
+  public SearchResponseDto searchByQuery(String query, String page) {
     TmdbSearchResponse response = tmdbClient.search(query, page).block();
-    List<SearchResult> results = response.getResults().stream().map(this::toSearchResult).toList();
+    List<SearchResultDto> results =
+        response.getResults().stream().map(this::toSearchResult).toList();
 
-    return new SearchResponse(results, response.getPage(), response.getTotalPages());
+    return new SearchResponseDto(results, response.getPage(), response.getTotalPages());
   }
 
-  private SearchResult toSearchResult(TmdbSearchResult result) {
-    return new SearchResult(
+  private SearchResultDto toSearchResult(TmdbSearchResult result) {
+    return new SearchResultDto(
         result.getId(),
         result.getTitle(),
         result.getOverview(),

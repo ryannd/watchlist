@@ -1,6 +1,6 @@
-package com.ryannd.watchlist.features.search.model;
+package com.ryannd.watchlist.features.search.dto;
 
-public record SearchResult(
+public record SearchResultDto(
     int id,
     String title,
     String overview,
