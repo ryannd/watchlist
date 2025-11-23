@@ -1,5 +1,6 @@
-package com.ryannd.watchlist.features.user.model;
+package com.ryannd.watchlist.features.user;
 
+import com.ryannd.watchlist.features.user.model.UserEntity;
 import com.ryannd.watchlist.features.user.repository.UserRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Service;

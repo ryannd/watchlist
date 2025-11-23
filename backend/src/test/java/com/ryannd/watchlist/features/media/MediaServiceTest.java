@@ -3,6 +3,7 @@ package com.ryannd.watchlist.features.media;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,27 +17,18 @@ import com.ryannd.watchlist.providers.SourceProviderRegistry;
 import com.ryannd.watchlist.providers.SourceType;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class MediaServiceTest {
-  private SourceProvider mockProvider;
-  private SourceProviderRegistry mockRegistry;
-  private MediaRepository mockRepository;
-  private MediaService service;
-
-  @BeforeEach
-  void setUp() {
-    mockProvider = Mockito.mock(SourceProvider.class);
-    mockRegistry = Mockito.mock(SourceProviderRegistry.class);
-    mockRepository = Mockito.mock(MediaRepository.class);
-    service = new MediaService(mockRegistry, mockRepository);
-
-    when(mockRegistry.get(any(SourceType.class))).thenReturn(mockProvider);
-    when(mockRepository.findBySourceAndSourceId(any(), any())).thenReturn(Optional.empty());
-    when(mockRepository.save(any(MediaEntity.class))).thenAnswer(inv -> inv.getArgument(0));
-  }
+  @Mock private SourceProvider mockProvider;
+  @Mock private SourceProviderRegistry mockRegistry;
+  @Mock private MediaRepository mockRepository;
+  @InjectMocks private MediaService service;
 
   @Test
   void getOrCreateMedia_createsMovie() {
@@ -49,7 +41,12 @@ class MediaServiceTest {
             List.of("Sci-Fi"),
             148,
             "2010-07-16");
+
+    when(mockRegistry.get(SourceType.TMDB)).thenReturn(mockProvider);
     when(mockProvider.fetchMedia(MediaType.MOVIE, "123")).thenReturn(movieDto);
+    when(mockRepository.findBySourceAndSourceId(SourceType.TMDB, "123"))
+        .thenReturn(Optional.empty());
+    when(mockRepository.save(any(MediaEntity.class))).thenAnswer(inv -> inv.getArgument(0));
 
     MediaEntity result = service.getOrCreateMedia(MediaType.MOVIE, SourceType.TMDB, "123");
 
@@ -71,25 +68,32 @@ class MediaServiceTest {
             List.of(),
             "2008-01-20",
             false);
+
+    when(mockRegistry.get(SourceType.TMDB)).thenReturn(mockProvider);
     when(mockProvider.fetchMedia(MediaType.SHOW, "456")).thenReturn(showDto);
+    when(mockRepository.findBySourceAndSourceId(SourceType.TMDB, "456"))
+        .thenReturn(Optional.empty());
+    when(mockRepository.save(any(MediaEntity.class))).thenAnswer(inv -> inv.getArgument(0));
 
     MediaEntity result = service.getOrCreateMedia(MediaType.SHOW, SourceType.TMDB, "456");
 
     assertNotNull(result);
     assertEquals("Breaking Bad", result.getTitle());
     assertEquals(MediaType.SHOW, result.getType());
+    verify(mockRepository).save(any(MediaEntity.class));
   }
 
   @Test
   void getOrCreateMedia_returnsExisting() {
     MediaEntity existing = new MediaEntity();
     existing.setTitle("Existing");
+
     when(mockRepository.findBySourceAndSourceId(SourceType.TMDB, "999"))
         .thenReturn(Optional.of(existing));
 
     MediaEntity result = service.getOrCreateMedia(MediaType.MOVIE, SourceType.TMDB, "999");
 
     assertEquals("Existing", result.getTitle());
-    verify(mockRepository, Mockito.never()).save(any());
+    verify(mockRepository, never()).save(any());
   }
 }
