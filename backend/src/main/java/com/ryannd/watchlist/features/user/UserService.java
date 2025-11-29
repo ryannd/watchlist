@@ -3,6 +3,8 @@ package com.ryannd.watchlist.features.user;
 import com.ryannd.watchlist.features.user.model.UserEntity;
 import com.ryannd.watchlist.features.user.repository.UserRepository;
 import java.util.Optional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +25,13 @@ public class UserService {
     UserEntity newUser = new UserEntity();
     newUser.setFirebaseUid(firebaseUid);
     return userRepository.save(newUser);
+  }
+
+  public UserEntity getAuthenticatedUser() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null || !(auth.getPrincipal() instanceof UserEntity user)) {
+      throw new IllegalStateException("No authenticated user");
+    }
+    return user;
   }
 }

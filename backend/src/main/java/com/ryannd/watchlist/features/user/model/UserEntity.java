@@ -48,4 +48,12 @@ public class UserEntity {
   public void setFirebaseUid(String firebaseUid) {
     this.firebaseUid = firebaseUid;
   }
+
+  public List<EntryEntity> getWatchList() {
+    return watchList;
+  }
+
+  public void setWatchList(List<EntryEntity> watchList) {
+    this.watchList = watchList;
+  }
 }

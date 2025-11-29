@@ -52,20 +52,25 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER);
 
-    if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX)) {
-      String token = authorizationHeader.substring(BEARER_PREFIX.length());
-      Optional<String> firebaseUid = extractUserIdFromToken(token);
+    if (authorizationHeader == null || !authorizationHeader.startsWith(BEARER_PREFIX)) {
+      setAuthErrorDetails(response);
+      return;
+    }
 
-      if (firebaseUid.isPresent()) {
-        UserEntity user = userService.getOrCreateUser(firebaseUid.get());
-        UsernamePasswordAuthenticationToken authentication =
-            new UsernamePasswordAuthenticationToken(user.getId(), null, null);
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-      } else {
-        setAuthErrorDetails(response);
-        return;
-      }
+    String token = authorizationHeader.substring(BEARER_PREFIX.length());
+    Optional<String> firebaseUid = extractUserIdFromToken(token);
+
+    if (firebaseUid.isPresent()) {
+      UserEntity user = userService.getOrCreateUser(firebaseUid.get());
+
+      UsernamePasswordAuthenticationToken authentication =
+          new UsernamePasswordAuthenticationToken(user, null, java.util.List.of());
+
+      authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+    } else {
+      setAuthErrorDetails(response);
+      return;
     }
 
     filterChain.doFilter(request, response);

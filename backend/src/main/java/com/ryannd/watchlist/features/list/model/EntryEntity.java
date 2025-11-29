@@ -39,4 +39,36 @@ public class EntryEntity {
   @Type(JsonType.class)
   @Column(columnDefinition = "jsonb")
   private EntryMetadata metadata;
+
+  public MediaEntity getMedia() {
+    return media;
+  }
+
+  public void setMedia(MediaEntity media) {
+    this.media = media;
+  }
+
+  public UserEntity getUser() {
+    return user;
+  }
+
+  public void setUser(UserEntity user) {
+    this.user = user;
+  }
+
+  public MediaType getMediaType() {
+    return mediaType;
+  }
+
+  public void setMediaType(MediaType mediaType) {
+    this.mediaType = mediaType;
+  }
+
+  public EntryMetadata getMetadata() {
+    return metadata;
+  }
+
+  public void setMetadata(EntryMetadata metadata) {
+    this.metadata = metadata;
+  }
 }
