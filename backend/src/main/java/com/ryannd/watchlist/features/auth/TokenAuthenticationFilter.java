@@ -64,7 +64,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
       UserEntity user = userService.getOrCreateUser(firebaseUid.get());
 
       UsernamePasswordAuthenticationToken authentication =
-          new UsernamePasswordAuthenticationToken(user, null, java.util.List.of());
+          new UsernamePasswordAuthenticationToken(user.getFirebaseUid(), null, java.util.List.of());
 
       authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);

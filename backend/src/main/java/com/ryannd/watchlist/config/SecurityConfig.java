@@ -29,13 +29,6 @@ public class SecurityConfig {
         .cors(cors -> {})
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(
-            auth ->
-                auth.requestMatchers(
-                        PUBLIC_PATHS.stream().map(path -> path + "/**").toArray(String[]::new))
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
         .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

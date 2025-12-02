@@ -1,5 +1,6 @@
 package com.ryannd.watchlist.features.media.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ryannd.watchlist.features.list.model.EntryEntity;
 import com.ryannd.watchlist.features.media.dto.metadata.MediaMetadataDto;
 import com.ryannd.watchlist.features.media.dto.metadata.MovieMetadataDto;
@@ -48,6 +49,7 @@ public class MediaEntity {
   private MediaMetadata metadata;
 
   @OneToMany(mappedBy = "media", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
   private List<EntryEntity> entries = new ArrayList<>();
 
   public MediaEntity() {}

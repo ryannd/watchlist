@@ -39,7 +39,7 @@ public class ListService {
   public EntryEntity createEntry(EntryDto entryDto, MediaEntity media) {
     EntryEntity entry = new EntryEntity();
     entry.setMedia(media);
-    entry.setMediaType(entryDto.mediaType());
+    entry.setMediaType(media.getType());
     entry.setMetadata(entryDto.metadata());
     return entry;
   }

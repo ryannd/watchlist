@@ -19,7 +19,7 @@ public class SearchController {
     this.searchService = searchService;
   }
 
-  @GetMapping
+  @GetMapping("/")
   public ResponseEntity<SearchResponseDto> search(
       @RequestParam @NotBlank String query,
       @RequestParam(defaultValue = "1") @Min(1) int page,

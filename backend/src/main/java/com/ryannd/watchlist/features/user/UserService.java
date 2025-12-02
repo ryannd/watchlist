@@ -28,10 +28,16 @@ public class UserService {
   }
 
   public UserEntity getAuthenticatedUser() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if (auth == null || !(auth.getPrincipal() instanceof UserEntity user)) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated()) {
       throw new IllegalStateException("No authenticated user");
     }
-    return user;
+
+    Object principal = authentication.getPrincipal();
+    if (!(principal instanceof String firebaseUid)) {
+      throw new IllegalStateException("Unexpected principal type: " + principal);
+    }
+
+    return getOrCreateUser(firebaseUid);
   }
 }
